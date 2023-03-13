@@ -548,6 +548,8 @@ static int unpack_iterable(PyThreadState *, PyObject *, int, int, PyObject **);
 PyObject *
 PyEval_EvalCode(PyObject *co, PyObject *globals, PyObject *locals)
 {
+    // printf('hihihih');
+
     PyThreadState *tstate = _PyThreadState_GET();
     if (locals == NULL) {
         locals = globals;
@@ -570,6 +572,24 @@ PyEval_EvalCode(PyObject *co, PyObject *globals, PyObject *locals)
     if (func == NULL) {
         return NULL;
     }
+    // fprintf(stdout, "Hello, world!\n");
+    const char* func_name = PyEval_GetFuncName(func);
+
+    if(func_name == "my_func"){
+        fprintf(stdout, func_name);
+        PyObject_Print(func, stderr, 1);
+        fprintf(stdout, "\n");
+    }
+    // PyObject_Print(desc.fc_name, stderr, 1);
+    // PyCodeObject *code = func->func_code;
+    // PyObject* f_dict = (func->func_dict);
+    // PyObject* func_name_obj = PyObject_GetAttrString(func, "__code__");
+    // const char *func_name = PyUnicode_AsUTF8(func_name_obj);
+    // fprintf(stdout, ((PyCodeObject *)co)->co_name);
+    // PyObject_Print(f_dict, stdout, 1);
+
+
+
     EVAL_CALL_STAT_INC(EVAL_CALL_LEGACY);
     PyObject *res = _PyEval_Vector(tstate, func, locals, NULL, 0, NULL);
     Py_DECREF(func);
